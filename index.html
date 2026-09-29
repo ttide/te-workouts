@@ -13,7 +13,8 @@
 *{box-sizing:border-box}html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--text);font:500 16px/1.5 var(--body)}
 .sr{position:absolute;opacity:0;pointer-events:none}
-header{position:sticky;top:0;z-index:2;background:var(--bg);padding:14px 16px 10px;border-bottom:1px solid var(--line)}
+.masthead{padding:14px 16px 2px;max-width:680px;margin:0 auto}
+header{position:sticky;top:0;z-index:2;background:var(--bg);padding:10px 16px;border-bottom:1px solid var(--line)}
 .brand{display:flex;align-items:center;gap:10px}
 .mark{width:32px;height:32px;border-radius:9px;background:var(--brand);color:var(--on-brand);display:grid;place-items:center;font:700 17px var(--display)}
 .brand b{font-weight:700}
@@ -28,7 +29,7 @@ main{max-width:680px;margin:0 auto;padding:12px 16px 32px}
 .intro{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin:6px 0 4px}
 .intro p{margin:0 0 6px}.intro p:last-child{margin:0}.who{font-weight:700}
 .week{color:var(--muted)}
-section{scroll-margin-top:236px;margin-top:22px}
+section{scroll-margin-top:132px;margin-top:22px}
 h2{font:700 26px/1.1 var(--display);margin:0 0 10px;letter-spacing:.2px}
 ol{list-style:none;margin:0;padding:0;background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden}
 li{padding:12px 16px;border-top:1px solid var(--line)}li:first-child{border-top:0}
@@ -45,9 +46,11 @@ footer{color:var(--muted);font-size:13px;text-align:center;margin-top:20px}
 </head>
 <body>
 <input class="lv sr" type="radio" name="level" id="lv-beginner" value="beginner" checked><input class="lv sr" type="radio" name="level" id="lv-intermediate" value="intermediate"><input class="lv sr" type="radio" name="level" id="lv-advanced" value="advanced">
-<header>
+<div class="masthead">
   <div class="brand"><div class="mark" aria-hidden="true">TE</div><b>Trainer Effect</b></div>
   <h1>Workout guide</h1>
+</div>
+<header>
   <div class="tabs" role="radiogroup" aria-label="Your level"><label for="lv-beginner">Beginner</label><label for="lv-intermediate">Intermediate</label><label for="lv-advanced">Advanced</label></div>
   <nav aria-label="Body parts"><a href="#chest">Chest</a><a href="#back">Back</a><a href="#shoulders">Shoulders</a><a href="#legs">Legs</a><a href="#arms">Arms</a><a href="#core">Core</a></nav>
 </header>
@@ -78,7 +81,10 @@ footer{color:var(--muted);font-size:13px;text-align:center;margin-top:20px}
 try{s=localStorage.getItem("te-level")}catch(e){}
 var pick=ids.indexOf(q)>=0?q:(ids.indexOf(s)>=0?s:null);if(pick)document.getElementById("lv-"+pick).checked=true;
 document.querySelectorAll(".lv").forEach(function(r){r.addEventListener("change",function(){try{localStorage.setItem("te-level",r.value)}catch(e){}
-try{var u=new URL(location.href);u.searchParams.set("level",r.value);history.replaceState(null,"",u)}catch(e){}})});})();
+try{var u=new URL(location.href);u.searchParams.set("level",r.value);history.replaceState(null,"",u)}catch(e){}})});
+// Web fonts change the height of earlier sections after the first jump; jump again once they load.
+function toHash(){var el=location.hash&&document.getElementById(location.hash.slice(1));if(el)el.scrollIntoView()}
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(toHash);else window.addEventListener("load",toHash);})();
 </script>
 </body>
 </html>
